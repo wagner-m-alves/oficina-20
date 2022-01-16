@@ -9,8 +9,9 @@
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
-                    <div class="p-4" v-if="$page.props.flash.success">
-                        <success-notification>{{ $page.props.flash.success }}</success-notification>
+                    <div class="p-4">
+                        <success-notification></success-notification>
+                        <failed-notification></failed-notification>
                     </div>
 
                     <Link :href="route('clients.create')" class="underline text-sm text-gray-600 hover:text-gray-900">
@@ -22,6 +23,7 @@
                             <tr>
                                 <th>Nome</th>
                                 <th>Contato</th>
+                                <th>Email</th>
                                 <th width="180px">Ações</th>
                             </tr>
                         </thead>
@@ -29,8 +31,9 @@
                             <tr v-for="(client, index) in clients.data" :key="index">
                                 <td>{{client.name}}</td>
                                 <td>{{client.contact}}</td>
+                                <td>{{client.email ? client.email : 'Indisponível'}}</td>
                                 <td>
-                                    <a href="#" @click.prevent="">Editar</a>
+                                    <Link :href="route('clients.edit', client.id)" class="underline text-sm text-gray-600 hover:text-gray-900">Editar</Link>
                                     <a href="#" @click.prevent="">Deletar</a>
                                 </td>
                             </tr>
@@ -46,13 +49,15 @@
     import { defineComponent } from 'vue'
     import AppLayout from '@/Layouts/AppLayout.vue'
     import { Link } from '@inertiajs/inertia-vue3';
-    import SuccessNotification from '../../../Components/SuccessNotification'
+    import SuccessNotification from '../../../Components/Notifications/SuccessNotification'
+    import FailedNotification from '../../../Components/Notifications/FailedNotification'
 
     export default defineComponent({
         components: {
             AppLayout,
             Link,
             SuccessNotification,
+            FailedNotification,
         },
 
         props: {
@@ -60,6 +65,6 @@
                 required:   true,
                 type:       Object,
             }
-        }
+        },
     })
 </script>

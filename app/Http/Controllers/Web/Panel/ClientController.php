@@ -32,4 +32,29 @@ class ClientController extends Controller
 
         return redirect()->route('clients.index')->with('success', 'Cadastro realizado com sucesso!');
     }
+
+    public function edit($id)
+    {
+        $client = Client::find($id);
+
+        if(!$client)
+            return redirect()->back()->with('failed', 'Dados não encontrados!');
+
+        return Inertia::render('Panel/Clients/Edit', [
+            'client' => $client,
+        ]);
+    }
+
+    public function update(ClientRequest $request, $id)
+    {
+        $client     = Client::find($id);
+        $data       = $request->only('name', 'contact', 'email');
+
+        if(!$client)
+            return redirect()->back()->with('failed', 'Dados não encontrados!');
+
+        $client->update($data);
+
+        return redirect()->route('clients.index')->with('success', 'Edição realizada com sucesso!');
+    }
 }

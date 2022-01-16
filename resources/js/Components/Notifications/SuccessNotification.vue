@@ -1,5 +1,5 @@
 <template>
-    <div class="flex flex-col justify-center">
+    <div class="flex flex-col justify-center" v-if="flashSuccess">
         <div class="flex items-center bg-green-500 border-l-4 border-green-700 py-2 px-3 shadow-md mb-2">
             <!-- icons -->
             <div class="text-green-500 rounded-full bg-white mr-3">
@@ -9,7 +9,7 @@
             </div>
             <!-- message -->
             <div class="text-white max-w-xs ">
-                <slot></slot>
+                {{ flashSuccess }}
             </div>
         </div>
    </div>
@@ -17,7 +17,26 @@
 
 <script>
 export default {
+    created () {
+        this.flashSuccess = this.$page.props.flash.success
+        this.hideNotificationAutomatically()
+    },
 
+    data () {
+        return {
+            flashSuccess: '',
+        }
+    },
+
+    methods: {
+        hideNotificationAutomatically () {
+            let vue = this
+
+            setTimeout(() => {
+                vue.flashSuccess = ''
+            }, 2500);
+        }
+    }
 }
 </script>
 
