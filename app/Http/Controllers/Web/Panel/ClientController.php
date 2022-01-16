@@ -4,18 +4,18 @@ namespace App\Http\Controllers\Web\Panel;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ClientRequest;
-use App\Models\Client;
 use App\Http\Resources\ClientResource;
+use App\Models\Client;
 use Inertia\Inertia;
 
 class ClientController extends Controller
 {
     public function index()
     {
-        $clients = Client::all();
+        $clients = Client::orderBy('name', 'asc')->paginate();
 
         return Inertia::render('Panel/Clients/Index', [
-            'clients' => $clients,
+            'clients' => ClientResource::collection($clients),
         ]);
     }
 

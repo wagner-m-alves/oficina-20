@@ -9,6 +9,10 @@
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
+                    <div class="p-4" v-if="$page.props.flash.success">
+                        <success-notification>{{ $page.props.flash.success }}</success-notification>
+                    </div>
+
                     <Link :href="route('clients.create')" class="underline text-sm text-gray-600 hover:text-gray-900">
                         Novo
                     </Link>
@@ -22,7 +26,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="(client, index) in clients" :key="index">
+                            <tr v-for="(client, index) in clients.data" :key="index">
                                 <td>{{client.name}}</td>
                                 <td>{{client.contact}}</td>
                                 <td>
@@ -41,17 +45,20 @@
 <script>
     import { defineComponent } from 'vue'
     import AppLayout from '@/Layouts/AppLayout.vue'
-    import { Head, Link } from '@inertiajs/inertia-vue3';
+    import { Link } from '@inertiajs/inertia-vue3';
+    import SuccessNotification from '../../../Components/SuccessNotification'
 
     export default defineComponent({
         components: {
             AppLayout,
             Link,
+            SuccessNotification,
         },
 
         props: {
             'clients': {
-                required: true,
+                required:   true,
+                type:       Object,
             }
         }
     })

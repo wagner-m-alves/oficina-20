@@ -8,10 +8,10 @@
 
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
+                <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-6">
                     <jet-validation-errors class="mb-4" />
 
-                    <form @submit.prevent="submit">
+                    <form @submit.prevent="submit" class="p-6">
                         <div>
                             <jet-label for="name" value="Name" />
                             <jet-input id="name" type="text" class="mt-1 block w-full" v-model="form.name" required autofocus autocomplete="name" />
@@ -19,7 +19,7 @@
 
                         <div class="mt-4">
                             <jet-label for="contact" value="Contato" />
-                            <jet-input id="contact" type="contact" class="mt-1 block w-full" v-model="form.contact" required/>
+                            <jet-input id="contact" type="text" class="mt-1 block w-full" v-model="form.contact" required autofocus autocomplete="contact" />
                         </div>
 
                         <div class="mt-4">
