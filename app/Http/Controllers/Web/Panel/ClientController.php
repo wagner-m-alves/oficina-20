@@ -57,4 +57,16 @@ class ClientController extends Controller
 
         return redirect()->route('clients.index')->with('success', 'Edição realizada com sucesso!');
     }
+
+    public function destroy($id)
+    {
+        $client = Client::find($id);
+
+        if(!$client)
+            return redirect()->back()->with('failed', 'Dados não encontrados!');
+
+        $client->delete();
+
+        return redirect()->route('clients.index')->with('success', 'Deleção realizada com sucesso!');
+    }
 }

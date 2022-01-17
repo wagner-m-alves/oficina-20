@@ -17,14 +17,14 @@
 
 <script>
 export default {
-    created () {
-        this.flashSuccess = this.$page.props.flash.success
-        this.hideNotificationAutomatically()
+    mounted () {
+        this.flashSuccess
+        this.hideNotificationAutomatically
     },
 
-    data () {
-        return {
-            flashSuccess: '',
+    computed: {
+        flashSuccess: function () {
+            return this.$page.props.flash.success
         }
     },
 

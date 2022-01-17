@@ -33,8 +33,8 @@
                                 <td>{{client.contact}}</td>
                                 <td>{{client.email ? client.email : 'Indisponível'}}</td>
                                 <td>
-                                    <Link :href="route('clients.edit', client.id)" class="underline text-sm text-gray-600 hover:text-gray-900">Editar</Link>
-                                    <a href="#" @click.prevent="">Deletar</a>
+                                    <Link :href="route('clients.edit', client.id)" class="underline text-sm mx-4 text-green-600 hover:text-green-900">Editar</Link>
+                                    <button class="text-sm text-red-600 hover:text-red-900" @click.prevent="destroy(client.id)">Deletar</button>
                                 </td>
                             </tr>
                         </tbody>
@@ -53,11 +53,18 @@
     import FailedNotification from '../../../Components/Notifications/FailedNotification'
 
     export default defineComponent({
+
         components: {
             AppLayout,
             Link,
             SuccessNotification,
             FailedNotification,
+        },
+
+        methods: {
+            destroy (id) {
+                this.$inertia.delete(this.route('clients.destroy', id))
+            }
         },
 
         props: {

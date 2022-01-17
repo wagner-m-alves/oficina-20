@@ -20,7 +20,7 @@
 export default {
     created () {
         this.flashFailed = this.$page.props.flash.failed
-        this.hideNotificationAutomatically()
+        this.hideNotificationAutomatically
     },
 
     data () {
