@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
@@ -24,6 +25,7 @@ class User extends Authenticatable
      * @var string[]
      */
     protected $fillable = [
+        'employee_id',
         'name',
         'email',
         'password',
@@ -58,4 +60,11 @@ class User extends Authenticatable
     protected $appends = [
         'profile_photo_url',
     ];
+
+
+    # Relacionamentos
+    public function employee()
+    {
+        return $this->belongsTo(Employee::class);
+    }
 }

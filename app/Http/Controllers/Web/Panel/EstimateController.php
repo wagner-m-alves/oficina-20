@@ -6,12 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\EstimateRequest;
 use App\Http\Resources\{
     ClientResource,
-    EmployeeResource,
     EstimateResource,
 };
 use App\Models\{
     Client,
-    Employee,
     Estimate,
 };
 use Inertia\Inertia;
@@ -29,18 +27,16 @@ class EstimateController extends Controller
 
     public function create()
     {
-        $clients    = Client::all();
-        $employees  = Employee::all();
+        $clients = Client::all();
 
         return Inertia::render('Panel/Estimates/Create', [
-            'clients'       => ClientResource::collection($clients),
-            'employees'     => EmployeeResource::collection($employees),
+            'clients' => ClientResource::collection($clients),
         ]);
     }
 
     public function store(EstimateRequest $request)
     {
-        $data = $request->only('client_id', 'employee_id', 'description', 'value');
+        $data = $request->only('client_id', 'description', 'value');
 
         Estimate::create($data);
 
@@ -51,7 +47,6 @@ class EstimateController extends Controller
     {
         $estimate   = Estimate::find($id);
         $clients    = Client::all();
-        $employees  = Employee::all();
 
         if(!$estimate)
             return redirect()->back()->with('failed', 'Dados não encontrados!');
@@ -59,14 +54,13 @@ class EstimateController extends Controller
         return Inertia::render('Panel/Estimates/Edit', [
             'estimate'      => $estimate,
             'clients'       => ClientResource::collection($clients),
-            'employees'     => EmployeeResource::collection($employees),
         ]);
     }
 
     public function update(EstimateRequest $request, $id)
     {
         $estimate   = Estimate::find($id);
-        $data       = $request->only('client_id', 'employee_id', 'description', 'value');
+        $data       = $request->only('client_id', 'description', 'value');
 
         if(!$estimate)
             return redirect()->back()->with('failed', 'Dados não encontrados!');

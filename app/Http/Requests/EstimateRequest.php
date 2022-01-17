@@ -25,7 +25,6 @@ class EstimateRequest extends FormRequest
     {
         return [
             'client_id'     => 'required|exists:clients,id',
-            'employee_id'   => 'required|exists:employees,id',
             'description'   => 'required|min:3|max:10000',
             'value'         => "regex:/^\d+(\.\d{1,2})?$/",
         ];

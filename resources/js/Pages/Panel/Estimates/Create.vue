@@ -21,14 +21,6 @@
                         </div>
 
                         <div class="mt-4">
-                            <jet-label for="employee_id" value="Funcionário" />
-                            <select id="employee_id" v-model="form.employee_id" required>
-                                <option value="">Selecione</option>
-                                <option v-for="(employee, index) in employees.data" :key="index" :value="employee.id">{{employee.name}}</option>
-                            </select>
-                        </div>
-
-                        <div class="mt-4">
                             <jet-label for="description" value="Descrição" />
                             <textarea id="description" cols="118" rows="5" v-model="form.description" required></textarea>
                         </div>
@@ -75,7 +67,6 @@
             return {
                 form: this.$inertia.form({
                     client_id:      '',
-                    employee_id:    '',
                     description:    '',
                     value:          '',
                 })
@@ -84,9 +75,6 @@
 
         props: {
             clients: {
-                required: true,
-            },
-            employees: {
                 required: true,
             },
         },

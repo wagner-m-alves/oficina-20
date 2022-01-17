@@ -20,4 +20,10 @@ class Employee extends Model
     {
         return $this->hasMany(Estimate::class);
     }
+
+    # Relacionamentos
+    public function user()
+    {
+        return $this->hasOne(User::class);
+    }
 }

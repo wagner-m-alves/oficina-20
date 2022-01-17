@@ -21,14 +21,6 @@
                         </div>
 
                         <div class="mt-4">
-                            <jet-label for="employee_id" value="Funcionário" />
-                            <select id="employee_id" v-model="estimate.employee_id" required>
-                                <option value="">Selecione</option>
-                                <option v-for="(employee, index) in employees.data" :key="index" :value="employee.id">{{employee.name}}</option>
-                            </select>
-                        </div>
-
-                        <div class="mt-4">
                             <jet-label for="description" value="Descrição" />
                             <textarea id="description" cols="118" rows="5" v-model="estimate.description" required></textarea>
                         </div>
@@ -76,9 +68,6 @@
                 required: true,
             },
             clients: {
-                required: true,
-            },
-            employees: {
                 required: true,
             },
         },

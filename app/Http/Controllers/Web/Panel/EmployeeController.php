@@ -12,7 +12,7 @@ class EmployeeController extends Controller
 {
     public function index()
     {
-        $employees = Employee::orderBy('name', 'asc')->paginate();
+        $employees = Employee::where('id', '>', 1)->orderBy('name', 'asc')->paginate();
 
         return Inertia::render('Panel/Employees/Index', [
             'employees' => EmployeeResource::collection($employees),
