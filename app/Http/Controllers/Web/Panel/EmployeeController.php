@@ -26,7 +26,7 @@ class EmployeeController extends Controller
 
     public function store(EmployeeRequest $request)
     {
-        $data = $request->only('name', 'contact', 'email');
+        $data = $request->only('name');
 
         Employee::create($data);
 
@@ -48,7 +48,7 @@ class EmployeeController extends Controller
     public function update(EmployeeRequest $request, $id)
     {
         $employee   = Employee::find($id);
-        $data       = $request->only('name', 'contact', 'email');
+        $data       = $request->only('name');
 
         if(!$employee)
             return redirect()->back()->with('failed', 'Dados não encontrados!');

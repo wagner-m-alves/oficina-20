@@ -7,7 +7,17 @@ use Illuminate\Database\Eloquent\Model;
 
 class Employee extends Model
 {
+    # Traits
     use HasFactory;
 
+
+    # Atributos
     protected $fillable = ['name'];
+
+
+    # Relacionamentos
+    public function estimates()
+    {
+        return $this->hasMany(Estimate::class);
+    }
 }

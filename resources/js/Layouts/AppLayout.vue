@@ -30,7 +30,12 @@
                             </div>
                             <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                                 <jet-nav-link :href="route('employees.index')" :active="route().current('employees.index')">
-                                    Funcionários
+                                    Vendedores
+                                </jet-nav-link>
+                            </div>
+                            <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                                <jet-nav-link :href="route('estimates.index')" :active="route().current('estimates.index')">
+                                    Orçamentos
                                 </jet-nav-link>
                             </div>
                         </div>

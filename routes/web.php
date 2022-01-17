@@ -3,6 +3,7 @@
 use App\Http\Controllers\Web\Panel\{
     ClientController,
     EmployeeController,
+    EstimateController,
     HomeController,
 };
 use App\Http\Controllers\Web\Site\SiteController;
@@ -17,6 +18,7 @@ Route::get('/', [SiteController::class, 'welcome']);
 Route::group(['namespace' => 'Web\Panel', 'middleware' => ['auth:sanctum', 'verified']], function () {
     # Dashboard
     Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard');
+
 
     # Clients
     Route::get('/clients', [ClientController::class, 'index'])->name('clients.index');
@@ -34,4 +36,13 @@ Route::group(['namespace' => 'Web\Panel', 'middleware' => ['auth:sanctum', 'veri
     Route::get('/employees/{id}/edit', [EmployeeController::class, 'edit'])->name('employees.edit');
     Route::put('/employees/{id}/update', [EmployeeController::class, 'update'])->name('employees.update');
     Route::delete('/employees/{id}/destroy', [EmployeeController::class, 'destroy'])->name('employees.destroy');
+
+
+    # Estimates
+    Route::get('/estimates', [EstimateController::class, 'index'])->name('estimates.index');
+    Route::get('/estimates/create', [EstimateController::class, 'create'])->name('estimates.create');
+    Route::post('/estimates/store', [EstimateController::class, 'store'])->name('estimates.store');
+    Route::get('/estimates/{id}/edit', [EstimateController::class, 'edit'])->name('estimates.edit');
+    Route::put('/estimates/{id}/update', [EstimateController::class, 'update'])->name('estimates.update');
+    Route::delete('/estimates/{id}/destroy', [EstimateController::class, 'destroy'])->name('estimates.destroy');
 });
