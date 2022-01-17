@@ -18,13 +18,13 @@
 <script>
 export default {
     mounted () {
-        this.flashSuccess
-        this.hideNotificationAutomatically
+        this.flashSuccess = this.$page.props.flash.success
+        this.hideNotificationAutomatically()
     },
 
-    computed: {
-        flashSuccess: function () {
-            return this.$page.props.flash.success
+    data () {
+        return {
+            flashSuccess: ''
         }
     },
 

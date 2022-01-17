@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Web\Panel\{
     ClientController,
+    EmployeeController,
     HomeController,
 };
 use App\Http\Controllers\Web\Site\SiteController;
@@ -24,4 +25,13 @@ Route::group(['namespace' => 'Web\Panel', 'middleware' => ['auth:sanctum', 'veri
     Route::get('/clients/{id}/edit', [ClientController::class, 'edit'])->name('clients.edit');
     Route::put('/clients/{id}/update', [ClientController::class, 'update'])->name('clients.update');
     Route::delete('/clients/{id}/destroy', [ClientController::class, 'destroy'])->name('clients.destroy');
+
+
+    # Employees
+    Route::get('/employees', [EmployeeController::class, 'index'])->name('employees.index');
+    Route::get('/employees/create', [EmployeeController::class, 'create'])->name('employees.create');
+    Route::post('/employees/store', [EmployeeController::class, 'store'])->name('employees.store');
+    Route::get('/employees/{id}/edit', [EmployeeController::class, 'edit'])->name('employees.edit');
+    Route::put('/employees/{id}/update', [EmployeeController::class, 'update'])->name('employees.update');
+    Route::delete('/employees/{id}/destroy', [EmployeeController::class, 'destroy'])->name('employees.destroy');
 });

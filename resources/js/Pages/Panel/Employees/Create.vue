@@ -1,8 +1,8 @@
 <template>
-    <app-layout title="Editar Cliente">
+    <app-layout title="Cadastrar Funcionário">
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                Editar Cliente
+                Cadastrar Funcionário
             </h2>
         </template>
 
@@ -14,21 +14,11 @@
                     <form @submit.prevent="submit" class="p-6">
                         <div>
                             <jet-label for="name" value="Name" />
-                            <jet-input id="name" type="text" class="mt-1 block w-full" v-model="client.name" required autofocus autocomplete="name" />
-                        </div>
-
-                        <div class="mt-4">
-                            <jet-label for="contact" value="Contato" />
-                            <jet-input id="contact" type="text" class="mt-1 block w-full" v-model="client.contact" required autofocus autocomplete="contact" />
-                        </div>
-
-                        <div class="mt-4">
-                            <jet-label for="email" value="Email" />
-                            <jet-input id="email" type="email" class="mt-1 block w-full" v-model="client.email"/>
+                            <jet-input id="name" type="text" class="mt-1 block w-full" v-model="form.name" required autofocus autocomplete="name" />
                         </div>
 
                         <div class="flex items-center justify-end mt-4">
-                            <jet-button class="ml-4">
+                            <jet-button class="ml-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
                                 Salvar
                             </jet-button>
                         </div>
@@ -60,15 +50,19 @@
             JetValidationErrors,
         },
 
-        props: {
-            client: {
-                required: true,
+        data() {
+            return {
+                form: this.$inertia.form({
+                    name:       '',
+                    contact:    '',
+                    email:      '',
+                })
             }
         },
 
         methods: {
             submit() {
-                this.$inertia.put(this.route('clients.update', this.client.id), this.client);
+                this.form.post(this.route('employees.store'));
             }
         }
     })

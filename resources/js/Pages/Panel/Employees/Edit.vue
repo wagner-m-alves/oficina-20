@@ -1,8 +1,8 @@
 <template>
-    <app-layout title="Editar Cliente">
+    <app-layout title="Editar Funcionário">
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                Editar Cliente
+                Editar Funcionário
             </h2>
         </template>
 
@@ -14,17 +14,7 @@
                     <form @submit.prevent="submit" class="p-6">
                         <div>
                             <jet-label for="name" value="Name" />
-                            <jet-input id="name" type="text" class="mt-1 block w-full" v-model="client.name" required autofocus autocomplete="name" />
-                        </div>
-
-                        <div class="mt-4">
-                            <jet-label for="contact" value="Contato" />
-                            <jet-input id="contact" type="text" class="mt-1 block w-full" v-model="client.contact" required autofocus autocomplete="contact" />
-                        </div>
-
-                        <div class="mt-4">
-                            <jet-label for="email" value="Email" />
-                            <jet-input id="email" type="email" class="mt-1 block w-full" v-model="client.email"/>
+                            <jet-input id="name" type="text" class="mt-1 block w-full" v-model="employee.name" required autofocus autocomplete="name" />
                         </div>
 
                         <div class="flex items-center justify-end mt-4">
@@ -61,14 +51,14 @@
         },
 
         props: {
-            client: {
+            employee: {
                 required: true,
             }
         },
 
         methods: {
             submit() {
-                this.$inertia.put(this.route('clients.update', this.client.id), this.client);
+                this.$inertia.put(this.route('employees.update', this.employee.id), this.employee);
             }
         }
     })

@@ -1,8 +1,8 @@
 <template>
-    <app-layout title="Clientes">
+    <app-layout title="Funcionários">
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                Clientes
+                Funcionários
             </h2>
         </template>
 
@@ -14,7 +14,7 @@
                         <failed-notification></failed-notification>
                     </div>
 
-                    <Link :href="route('clients.create')" class="underline text-sm text-gray-600 hover:text-gray-900">
+                    <Link :href="route('employees.create')" class="underline text-sm text-gray-600 hover:text-gray-900">
                         Novo
                     </Link>
 
@@ -22,19 +22,15 @@
                         <thead>
                             <tr>
                                 <th>Nome</th>
-                                <th>Contato</th>
-                                <th>Email</th>
                                 <th width="180px">Ações</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="(client, index) in clients.data" :key="index">
-                                <td>{{client.name}}</td>
-                                <td>{{client.contact}}</td>
-                                <td>{{client.email ? client.email : 'Indisponível'}}</td>
+                            <tr v-for="(employee, index) in employees.data" :key="index">
+                                <td>{{employee.name}}</td>
                                 <td>
-                                    <Link :href="route('clients.edit', client.id)" class="underline text-sm mx-4 text-green-600 hover:text-green-900">Editar</Link>
-                                    <button class="text-sm text-red-600 hover:text-red-900" @click.prevent="destroy(client.id)">Deletar</button>
+                                    <Link :href="route('employees.edit', employee.id)" class="underline text-sm mx-4 text-green-600 hover:text-green-900">Editar</Link>
+                                    <button class="text-sm text-red-600 hover:text-red-900" @click.prevent="destroy(employee.id)">Deletar</button>
                                 </td>
                             </tr>
                         </tbody>
@@ -62,12 +58,12 @@
 
         methods: {
             destroy (id) {
-                this.$inertia.delete(this.route('clients.destroy', id))
+                this.$inertia.delete(this.route('employees.destroy', id))
             }
         },
 
         props: {
-            'clients': {
+            'employees': {
                 required:   true,
                 type:       Object,
             }

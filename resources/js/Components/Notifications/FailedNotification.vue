@@ -18,14 +18,14 @@
 
 <script>
 export default {
-    created () {
+    mounted () {
         this.flashFailed = this.$page.props.flash.failed
-        this.hideNotificationAutomatically
+        this.hideNotificationAutomatically()
     },
 
     data () {
         return {
-            flashFailed: '',
+            flashFailed: ''
         }
     },
 
