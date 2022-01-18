@@ -12,12 +12,16 @@
                     <success-notification></success-notification>
                     <failed-notification></failed-notification>
 
-                    <Link :href="route('clients.create')" class="underline text-sm text-gray-600 hover:text-gray-900">
-                        Novo
-                    </Link>
+                    <!-- Actions Plus -->
+                    <div class="mb-4">
+                        <Link :href="route('clients.create')" class="underline text-sm text-gray-600 hover:text-gray-900">Novo</Link>
+                    </div>
+                    <!-- End Actions Plus -->
+
 
                     <!-- Listing -->
                     <table>
+
                         <thead>
                             <tr>
                                 <th>Nome</th>
@@ -37,6 +41,14 @@
                                 </td>
                             </tr>
                         </tbody>
+                        <tfoot>
+                            <div class="mt-4">
+                                <Pagination
+                                    :pagination="clients.meta"
+                                    @paginate="changePage">
+                                </Pagination>
+                            </div>
+                        </tfoot>
                     </table>
                     <!-- End Listing -->
 
@@ -72,11 +84,12 @@
     import { defineComponent } from 'vue'
     import AppLayout from '@/Layouts/AppLayout.vue'
     import { Link } from '@inertiajs/inertia-vue3';
-    import SuccessNotification from '@/Components/Notifications/SuccessNotification'
-    import FailedNotification from '@/Components/Notifications/FailedNotification'
+    import SuccessNotification from '@/Components/Notifications/SuccessNotification.vue'
+    import FailedNotification from '@/Components/Notifications/FailedNotification.vue'
     import JetConfirmationModal from '@/Jetstream/ConfirmationModal.vue'
     import JetDangerButton from '@/Jetstream/DangerButton.vue'
     import JetButton from '@/Jetstream/Button.vue'
+    import Pagination from '@/Components/Pagination.vue'
 
     export default defineComponent({
         components: {
@@ -87,12 +100,13 @@
             JetConfirmationModal,
             JetDangerButton,
             JetButton,
+            Pagination,
         },
 
         data () {
             return {
                 showModal:  false,
-                deleteId:   ''
+                deleteId:   '',
             }
         },
 
@@ -115,6 +129,12 @@
             cancel () {
                 this.showModal  = false
                 this.deleteId   = ''
+            },
+
+            changePage (page) {
+                var url = window.location.pathname + `?page=${page}`
+
+                this.$inertia.get(url)
             }
         },
 

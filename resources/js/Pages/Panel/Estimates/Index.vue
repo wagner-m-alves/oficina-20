@@ -62,6 +62,14 @@
                                 </td>
                             </tr>
                         </tbody>
+                        <tfoot>
+                            <div class="mt-4">
+                                <Pagination
+                                    :pagination="estimates.meta"
+                                    @paginate="changePage">
+                                </Pagination>
+                            </div>
+                        </tfoot>
                     </table>
                     <!-- End Listing -->
 
@@ -97,13 +105,14 @@
     import { defineComponent } from 'vue'
     import AppLayout from '@/Layouts/AppLayout.vue'
     import { Link } from '@inertiajs/inertia-vue3';
-    import SuccessNotification from '@/Components/Notifications/SuccessNotification'
-    import FailedNotification from '@/Components/Notifications/FailedNotification'
+    import SuccessNotification from '@/Components/Notifications/SuccessNotification.vue'
+    import FailedNotification from '@/Components/Notifications/FailedNotification.vue'
     import JetConfirmationModal from '@/Jetstream/ConfirmationModal.vue'
     import JetDangerButton from '@/Jetstream/DangerButton.vue'
     import JetButton from '@/Jetstream/Button.vue'
     import JetInput from '@/Jetstream/Input.vue'
     import JetLabel from '@/Jetstream/Label.vue'
+    import Pagination from '@/Components/Pagination.vue'
 
     export default defineComponent({
         components: {
@@ -116,6 +125,7 @@
             JetButton,
             JetInput,
             JetLabel,
+            Pagination,
         },
 
         data () {
@@ -155,6 +165,12 @@
 
             search () {
                 this.formSearch.post(this.route('estimates.search'));
+            },
+
+            changePage (page) {
+                var url = window.location.pathname + `?page=${page}`
+
+                this.$inertia.get(url)
             }
         },
 

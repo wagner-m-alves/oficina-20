@@ -101,7 +101,7 @@
     import JetValidationErrors from '@/Jetstream/ValidationErrors.vue'
     import JetDialogModal from '@/Jetstream/DialogModal.vue'
     import JetDangerButton from '@/Jetstream/DangerButton.vue'
-    import SuccessNotification from '@/Components/Notifications/SuccessNotification'
+    import SuccessNotification from '@/Components/Notifications/SuccessNotification.vue'
     import LightButton from '@/Components/Buttons/LightButton.vue'
 
     export default defineComponent({
