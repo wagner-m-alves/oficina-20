@@ -27,7 +27,7 @@ class EstimateController extends Controller
 
     public function create()
     {
-        $clients = Client::all();
+        $clients = Client::orderBy('name', 'asc')->get();
 
         return Inertia::render('Panel/Estimates/Create', [
             'clients' => ClientResource::collection($clients),

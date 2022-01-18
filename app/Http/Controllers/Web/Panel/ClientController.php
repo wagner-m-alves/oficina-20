@@ -33,6 +33,15 @@ class ClientController extends Controller
         return redirect()->route('clients.index')->with('success', 'Cadastro realizado com sucesso!');
     }
 
+    public function add(ClientRequest $request)
+    {
+        $data = $request->only('name', 'contact', 'email');
+
+        Client::create($data);
+
+        return redirect()->route('estimates.create')->with('success', 'Cliente adicionado com sucesso!');
+    }
+
     public function edit($id)
     {
         $client = Client::find($id);

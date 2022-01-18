@@ -24,6 +24,7 @@ Route::group(['namespace' => 'Web\Panel', 'middleware' => ['auth:sanctum', 'veri
     Route::get('/clients', [ClientController::class, 'index'])->name('clients.index');
     Route::get('/clients/create', [ClientController::class, 'create'])->name('clients.create');
     Route::post('/clients/store', [ClientController::class, 'store'])->name('clients.store');
+    Route::post('/clients/add', [ClientController::class, 'add'])->name('clients.add');
     Route::get('/clients/{id}/edit', [ClientController::class, 'edit'])->name('clients.edit');
     Route::put('/clients/{id}/update', [ClientController::class, 'update'])->name('clients.update');
     Route::delete('/clients/{id}/destroy', [ClientController::class, 'destroy'])->name('clients.destroy');
