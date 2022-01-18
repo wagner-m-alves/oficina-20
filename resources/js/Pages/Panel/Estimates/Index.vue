@@ -8,15 +8,36 @@
 
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
-                    <div class="p-4">
-                        <success-notification></success-notification>
-                        <failed-notification></failed-notification>
-                    </div>
+                <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-6">
+                    <success-notification></success-notification>
+                    <failed-notification></failed-notification>
 
                     <Link :href="route('estimates.create')" class="underline text-sm text-gray-600 hover:text-gray-900">
                         Novo
                     </Link>
+
+
+                    <!-- Search Form -->
+                    <form @submit.prevent="search">
+                        <div class="mt-4">
+                            <jet-input id="client" type="text" class="mt-1 block w-full" v-model="formSearch.client" placeholder="Cliente"/>
+                            <jet-input id="employee" type="text" class="mt-1 block w-full" v-model="formSearch.employee" placeholder="Vendedor"/>
+                        </div>
+
+                        <div class="mt-4">
+                            <input type="date" name="dtInitial" v-model="formSearch.dtInitial">
+                            <input class="mx-4" type="date" name="dtFinal" v-model="formSearch.dtFinal">
+                            <jet-button>
+                                Buscar
+                            </jet-button>
+                        </div>
+
+                        <div class="flex items-center justify-end mt-4">
+
+                        </div>
+                    </form>
+                    <!-- End Search Form -->
+
 
                     <!-- Listing -->
                     <table>
@@ -81,6 +102,8 @@
     import JetConfirmationModal from '@/Jetstream/ConfirmationModal.vue'
     import JetDangerButton from '@/Jetstream/DangerButton.vue'
     import JetButton from '@/Jetstream/Button.vue'
+    import JetInput from '@/Jetstream/Input.vue'
+    import JetLabel from '@/Jetstream/Label.vue'
 
     export default defineComponent({
         components: {
@@ -91,12 +114,21 @@
             JetConfirmationModal,
             JetDangerButton,
             JetButton,
+            JetInput,
+            JetLabel,
         },
 
         data () {
             return {
                 showModal:  false,
-                deleteId:   ''
+                deleteId:   '',
+
+                formSearch: this.$inertia.form({
+                    client:      '',
+                    employee:    '',
+                    dtInitial:   '',
+                    dtFinal:     '',
+                }),
             }
         },
 
@@ -119,6 +151,10 @@
             cancel () {
                 this.showModal  = false
                 this.deleteId   = ''
+            },
+
+            search () {
+                this.formSearch.post(this.route('estimates.search'));
             }
         },
 

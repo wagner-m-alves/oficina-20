@@ -17,7 +17,6 @@
                     <form @submit.prevent="createEstimate" class="p-6">
                         <div>
                             <jet-label for="client_id" value="Cliente" />
-
                             <select id="client_id" v-model="formEstimate.client_id" required>
                                 <option value="">Selecione</option>
                                 <option v-for="(client, index) in clients.data" :key="index" :value="client.id">{{client.name}}</option>
@@ -75,11 +74,11 @@
                                 </div>
 
                                 <div class="flex items-center justify-end mt-4">
-                                    <jet-button type="button" class="ml-4" @click="end">
+                                    <light-button type="button" class="ml-4" @click="end">
                                         Cancelar
-                                    </jet-button>
+                                    </light-button>
 
-                                    <jet-button class="ml-4" :class="{ 'opacity-25': formAddClient.processing }" :disabled="formAddClient.processing">
+                                    <jet-button class="ml-4">
                                         Salvar
                                     </jet-button>
                                 </div>
@@ -103,6 +102,7 @@
     import JetDialogModal from '@/Jetstream/DialogModal.vue'
     import JetDangerButton from '@/Jetstream/DangerButton.vue'
     import SuccessNotification from '@/Components/Notifications/SuccessNotification'
+    import LightButton from '@/Components/Buttons/LightButton.vue'
 
     export default defineComponent({
         components: {
@@ -114,6 +114,7 @@
             JetDialogModal,
             JetDangerButton,
             SuccessNotification,
+            LightButton
         },
 
         data() {

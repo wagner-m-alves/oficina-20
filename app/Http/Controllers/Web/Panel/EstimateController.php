@@ -12,6 +12,7 @@ use App\Models\{
     Client,
     Estimate,
 };
+use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class EstimateController extends Controller
@@ -68,6 +69,15 @@ class EstimateController extends Controller
         $estimate->update($data);
 
         return redirect()->route('estimates.index')->with('success', 'Edição realizada com sucesso!');
+    }
+
+    public function search(Request $request, Estimate $estimate)
+    {
+        $estimates = $estimate->search($request->all());
+
+        return Inertia::render('Panel/Estimates/Index', [
+            'estimates' => EstimateResource::collection($estimates),
+        ]);
     }
 
     public function destroy($id)

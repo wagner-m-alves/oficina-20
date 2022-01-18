@@ -46,4 +46,5 @@ Route::group(['namespace' => 'Web\Panel', 'middleware' => ['auth:sanctum', 'veri
     Route::get('/estimates/{id}/edit', [EstimateController::class, 'edit'])->name('estimates.edit');
     Route::put('/estimates/{id}/update', [EstimateController::class, 'update'])->name('estimates.update');
     Route::delete('/estimates/{id}/destroy', [EstimateController::class, 'destroy'])->name('estimates.destroy');
+    Route::any('/estimates/search', [EstimateController::class, 'search'])->name('estimates.search');
 });
