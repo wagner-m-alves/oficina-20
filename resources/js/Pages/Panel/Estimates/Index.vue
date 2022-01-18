@@ -18,6 +18,7 @@
                         Novo
                     </Link>
 
+                    <!-- Listing -->
                     <table>
                         <thead>
                             <tr>
@@ -36,11 +37,34 @@
                                 <td>R$ {{ estimate.value }}</td>
                                 <td>
                                     <Link :href="route('estimates.edit', estimate.id)" class="underline text-sm mx-4 text-green-600 hover:text-green-900">Editar</Link>
-                                    <button class="text-sm text-red-600 hover:text-red-900" @click.prevent="destroy(estimate.id)">Deletar</button>
+                                    <button class="text-sm text-red-600 hover:text-red-900" @click.prevent="wantDestroy(estimate.id)">Deletar</button>
                                 </td>
                             </tr>
                         </tbody>
                     </table>
+                    <!-- End Listing -->
+
+                    <!-- Modals -->
+                    <jet-confirmation-modal :show="showModal" @close="cancel">
+                        <template #title>
+                            Deletar Registro
+                        </template>
+
+                        <template #content>
+                            Você está prestes a deletar um registro e isso não poderá ser desfeito. Deseja continuar?
+                        </template>
+
+                        <template #footer>
+                            <jet-button type="button" @click="cancel">
+                                Cancelar
+                            </jet-button>
+
+                            <jet-danger-button class="mx-4" @click="destroy">
+                                Deletar
+                            </jet-danger-button>
+                        </template>
+                    </jet-confirmation-modal>
+                    <!-- End Modals -->
                 </div>
             </div>
         </div>
@@ -51,8 +75,11 @@
     import { defineComponent } from 'vue'
     import AppLayout from '@/Layouts/AppLayout.vue'
     import { Link } from '@inertiajs/inertia-vue3';
-    import SuccessNotification from '../../../Components/Notifications/SuccessNotification'
-    import FailedNotification from '../../../Components/Notifications/FailedNotification'
+    import SuccessNotification from '@/Components/Notifications/SuccessNotification'
+    import FailedNotification from '@/Components/Notifications/FailedNotification'
+    import JetConfirmationModal from '@/Jetstream/ConfirmationModal.vue'
+    import JetDangerButton from '@/Jetstream/DangerButton.vue'
+    import JetButton from '@/Jetstream/Button.vue'
 
     export default defineComponent({
         components: {
@@ -60,11 +87,37 @@
             Link,
             SuccessNotification,
             FailedNotification,
+            JetConfirmationModal,
+            JetDangerButton,
+            JetButton,
+        },
+
+        data () {
+            return {
+                showModal:  false,
+                deleteId:   ''
+            }
         },
 
         methods: {
-            destroy (id) {
-                this.$inertia.delete(this.route('estimates.destroy', id))
+            wantDestroy(id) {
+                this.showModal  = true
+                this.deleteId   = id
+            },
+
+            destroy () {
+                this.showModal = false
+
+                if(this.deleteId){
+                    this.$inertia.delete(this.route('estimates.destroy', this.deleteId))
+                }
+
+                this.deleteId = ''
+            },
+
+            cancel () {
+                this.showModal  = false
+                this.deleteId   = ''
             }
         },
 
