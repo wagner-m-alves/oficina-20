@@ -12,24 +12,28 @@
                     <success-notification></success-notification>
                     <failed-notification></failed-notification>
 
-                    <Link :href="route('estimates.create')" class="underline text-sm text-gray-600 hover:text-gray-900">
-                        Novo
-                    </Link>
+
+                    <!-- Actions -->
+                    <primary-button class="mb-4" @click="create">Novo</primary-button>
+                    <!-- Actions -->
 
 
                     <!-- Search Form -->
                     <form @submit.prevent="search">
-                        <div class="mt-4">
-                            <jet-input id="client" type="text" class="mt-1 block w-full" v-model="formSearch.client" placeholder="Cliente"/>
-                            <jet-input id="employee" type="text" class="mt-1 block w-full" v-model="formSearch.employee" placeholder="Vendedor"/>
+                        <div class="mt-4 inline">
+                            <jet-input id="client" type="text" class="mr-2" v-model="formSearch.client" placeholder="Cliente"/>
+
+                            <jet-input id="employee" type="text" class="mr-2" v-model="formSearch.employee" placeholder="Vendedor"/>
+
+                            <jet-input class="mr-2" type="date" name="dtInitial" v-model="formSearch.dtInitial"/>
+
+                            <jet-input class="mr-2" type="date" name="dtFinal" v-model="formSearch.dtFinal"/>
+
+                            <jet-button>Buscar</jet-button>
                         </div>
 
                         <div class="mt-4">
-                            <input type="date" name="dtInitial" v-model="formSearch.dtInitial">
-                            <input class="mx-4" type="date" name="dtFinal" v-model="formSearch.dtFinal">
-                            <jet-button>
-                                Buscar
-                            </jet-button>
+
                         </div>
 
                         <div class="flex items-center justify-end mt-4">
@@ -40,25 +44,27 @@
 
 
                     <!-- Listing -->
-                    <table>
-                        <thead>
+                    <p><strong>Total: </strong>{{estimates.meta.total}}</p>
+
+                    <table class="w-full divide-y divide-gray-700">
+                        <thead class="bg-gray-700 text-white uppercase">
                             <tr>
-                                <th>Data</th>
-                                <th>Cliente</th>
-                                <th>Vendedor</th>
-                                <th>Valor</th>
-                                <th width="180px">Ações</th>
+                                <th class="px-6 py-3 text-xs font-medium tracking-wider">Data</th>
+                                <th class="px-6 py-3 text-xs font-medium tracking-wider">Cliente</th>
+                                <th class="px-6 py-3 text-xs font-medium tracking-wider">Vendedor</th>
+                                <th class="px-6 py-3 text-xs font-medium tracking-wider">Valor</th>
+                                <th class="px-6 py-3 text-xs font-medium tracking-wider">Ações</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody class="bg-white divide-y divide-gray-700 text-center">
                             <tr v-for="(estimate, index) in estimates.data" :key="index">
-                                <td>{{estimate.datetime}}</td>
-                                <td>{{estimate.client.name}}</td>
-                                <td>{{estimate.employee.name}}</td>
-                                <td>R$ {{ estimate.value }}</td>
-                                <td>
-                                    <Link :href="route('estimates.edit', estimate.id)" class="underline text-sm mx-4 text-green-600 hover:text-green-900">Editar</Link>
-                                    <button class="text-sm text-red-600 hover:text-red-900" @click.prevent="wantDestroy(estimate.id)">Deletar</button>
+                                <td class="px-6 py-2 text-sm font-medium whitespace-nowrap tracking-wider">{{estimate.datetime}}</td>
+                                <td class="px-6 py-2 text-sm font-medium whitespace-nowrap tracking-wider">{{estimate.client.name}}</td>
+                                <td class="px-6 py-2 text-sm font-medium whitespace-nowrap tracking-wider">{{estimate.employee.name}}</td>
+                                <td class="px-6 py-2 text-sm font-medium whitespace-nowrap tracking-wider">R$ {{ estimate.value }}</td>
+                                <td class="px-6 py-2 text-sm font-medium whitespace-nowrap tracking-wider">
+                                    <success-button class="mr-3" @click="edit(estimates.id)">Editar</success-button>
+                                    <jet-danger-button @click="wantDestroy(estimates.id)">Deletar</jet-danger-button>
                                 </td>
                             </tr>
                         </tbody>
@@ -85,9 +91,9 @@
                         </template>
 
                         <template #footer>
-                            <jet-button type="button" @click="cancel">
+                            <light-button @click="cancel">
                                 Cancelar
-                            </jet-button>
+                            </light-button>
 
                             <jet-danger-button class="mx-4" @click="destroy">
                                 Deletar
@@ -104,28 +110,32 @@
 <script>
     import { defineComponent } from 'vue'
     import AppLayout from '@/Layouts/AppLayout.vue'
-    import { Link } from '@inertiajs/inertia-vue3';
-    import SuccessNotification from '@/Components/Notifications/SuccessNotification.vue'
-    import FailedNotification from '@/Components/Notifications/FailedNotification.vue'
     import JetConfirmationModal from '@/Jetstream/ConfirmationModal.vue'
     import JetDangerButton from '@/Jetstream/DangerButton.vue'
     import JetButton from '@/Jetstream/Button.vue'
     import JetInput from '@/Jetstream/Input.vue'
     import JetLabel from '@/Jetstream/Label.vue'
+    import SuccessNotification from '@/Components/Notifications/SuccessNotification.vue'
+    import FailedNotification from '@/Components/Notifications/FailedNotification.vue'
     import Pagination from '@/Components/Pagination.vue'
+    import SuccessButton from '@/Components/Buttons/SuccessButton.vue'
+    import LightButton from '@/Components/Buttons/LightButton.vue'
+    import PrimaryButton from '@/Components/Buttons/PrimaryButton.vue'
 
     export default defineComponent({
         components: {
             AppLayout,
-            Link,
-            SuccessNotification,
-            FailedNotification,
             JetConfirmationModal,
             JetDangerButton,
             JetButton,
             JetInput,
             JetLabel,
+            SuccessNotification,
+            FailedNotification,
             Pagination,
+            SuccessButton,
+            LightButton,
+            PrimaryButton,
         },
 
         data () {
@@ -146,6 +156,14 @@
             wantDestroy(id) {
                 this.showModal  = true
                 this.deleteId   = id
+            },
+
+            create () {
+                this.$inertia.get(this.route('estimates.create'))
+            },
+
+            edit (id) {
+                this.$inertia.get(this.route('estimates.edit', id))
             },
 
             destroy () {

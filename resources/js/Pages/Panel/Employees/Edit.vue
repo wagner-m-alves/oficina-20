@@ -1,8 +1,8 @@
 <template>
-    <app-layout title="Editar Funcionário">
+    <app-layout title="Editar Vendedor">
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                Editar Funcionário
+                Editar Vendedor
             </h2>
         </template>
 

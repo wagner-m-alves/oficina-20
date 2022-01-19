@@ -12,32 +12,32 @@
                     <success-notification></success-notification>
                     <failed-notification></failed-notification>
 
-                    <!-- Actions Plus -->
-                    <div class="mb-4">
-                        <Link :href="route('clients.create')" class="underline text-sm text-gray-600 hover:text-gray-900">Novo</Link>
-                    </div>
-                    <!-- End Actions Plus -->
+
+                    <!-- Actions -->
+                    <primary-button class="mb-4" @click="create">Novo</primary-button>
+                    <!-- Actions -->
 
 
                     <!-- Listing -->
-                    <table>
+                    <p><strong>Total: </strong>{{clients.meta.total}}</p>
 
-                        <thead>
+                    <table class="w-full divide-y divide-gray-700">
+                        <thead class="bg-gray-700 text-white uppercase">
                             <tr>
-                                <th>Nome</th>
-                                <th>Contato</th>
-                                <th>Email</th>
-                                <th width="180px">Ações</th>
+                                <th class="px-6 py-3 text-xs font-medium tracking-wider">Nome</th>
+                                <th class="px-6 py-3 text-xs font-medium tracking-wider">Contato</th>
+                                <th class="px-6 py-3 text-xs font-medium tracking-wider">Email</th>
+                                <th class="px-6 py-3 text-xs font-medium tracking-wider">Ações</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody class="bg-white divide-y divide-gray-700 text-center">
                             <tr v-for="(client, index) in clients.data" :key="index">
-                                <td>{{client.name}}</td>
-                                <td>{{client.contact}}</td>
-                                <td>{{client.email ? client.email : 'Indisponível'}}</td>
-                                <td>
-                                    <Link :href="route('clients.edit', client.id)" class="underline text-sm mx-4 text-green-600 hover:text-green-900">Editar</Link>
-                                    <button class="text-sm text-red-600 hover:text-red-900" @click.prevent="wantDestroy(client.id)">Deletar</button>
+                                <td class="px-6 py-2 text-sm font-medium whitespace-nowrap tracking-wider">{{client.name}}</td>
+                                <td class="px-6 py-2 text-sm font-medium whitespace-nowrap tracking-wider">{{client.contact}}</td>
+                                <td class="px-6 py-2 text-sm font-medium whitespace-nowrap tracking-wider">{{client.email ? client.email : '-'}}</td>
+                                <td class="px-6 py-2 text-sm font-medium whitespace-nowrap tracking-wider">
+                                    <success-button class="mr-3" @click="edit(client.id)">Editar</success-button>
+                                    <jet-danger-button @click="wantDestroy(client.id)">Deletar</jet-danger-button>
                                 </td>
                             </tr>
                         </tbody>
@@ -64,9 +64,9 @@
                         </template>
 
                         <template #footer>
-                            <jet-button type="button" @click="cancel">
+                            <light-button @click="cancel">
                                 Cancelar
-                            </jet-button>
+                            </light-button>
 
                             <jet-danger-button class="mx-4" @click="destroy">
                                 Deletar
@@ -83,24 +83,28 @@
 <script>
     import { defineComponent } from 'vue'
     import AppLayout from '@/Layouts/AppLayout.vue'
-    import { Link } from '@inertiajs/inertia-vue3';
-    import SuccessNotification from '@/Components/Notifications/SuccessNotification.vue'
-    import FailedNotification from '@/Components/Notifications/FailedNotification.vue'
     import JetConfirmationModal from '@/Jetstream/ConfirmationModal.vue'
     import JetDangerButton from '@/Jetstream/DangerButton.vue'
     import JetButton from '@/Jetstream/Button.vue'
+    import SuccessNotification from '@/Components/Notifications/SuccessNotification.vue'
+    import FailedNotification from '@/Components/Notifications/FailedNotification.vue'
     import Pagination from '@/Components/Pagination.vue'
+    import SuccessButton from '@/Components/Buttons/SuccessButton.vue'
+    import LightButton from '@/Components/Buttons/LightButton.vue'
+    import PrimaryButton from '@/Components/Buttons/PrimaryButton.vue'
 
     export default defineComponent({
         components: {
             AppLayout,
-            Link,
-            SuccessNotification,
-            FailedNotification,
             JetConfirmationModal,
             JetDangerButton,
             JetButton,
+            SuccessNotification,
+            FailedNotification,
             Pagination,
+            SuccessButton,
+            LightButton,
+            PrimaryButton,
         },
 
         data () {
@@ -114,6 +118,14 @@
             wantDestroy(id) {
                 this.showModal  = true
                 this.deleteId   = id
+            },
+
+            create () {
+                this.$inertia.get(this.route('clients.create'))
+            },
+
+            edit (id) {
+                this.$inertia.get(this.route('clients.edit', id))
             },
 
             destroy () {

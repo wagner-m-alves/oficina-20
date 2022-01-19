@@ -22,9 +22,9 @@
                                 <option v-for="(client, index) in clients.data" :key="index" :value="client.id">{{client.name}}</option>
                             </select>
 
-                            <jet-button class="mx-4" type="button" @click="showModal = true">
-                                Novo
-                            </jet-button>
+                            <!-- Add Client -->
+                            <primary-button class="mx-4" type="button" @click="showModal = true">Novo</primary-button>
+                            <!-- End Add Client -->
                         </div>
 
                         <div class="mt-4">
@@ -55,8 +55,6 @@
                         <template #content>
                             <jet-validation-errors class="mb-4" />
 
-                            {{test}}
-
                             <form @submit.prevent="AddClient" class="p-6">
                                 <div>
                                     <jet-label for="name" value="Name" />
@@ -73,8 +71,8 @@
                                     <jet-input id="email" type="email" class="mt-1 block w-full" v-model="formAddClient.email"/>
                                 </div>
 
-                                <div class="flex items-center justify-end mt-4">
-                                    <light-button type="button" class="ml-4" @click="end">
+                                <div class="flex items-center justify-end mt-6">
+                                    <light-button class="ml-4" @click="end">
                                         Cancelar
                                     </light-button>
 
@@ -103,6 +101,7 @@
     import JetDangerButton from '@/Jetstream/DangerButton.vue'
     import SuccessNotification from '@/Components/Notifications/SuccessNotification.vue'
     import LightButton from '@/Components/Buttons/LightButton.vue'
+    import PrimaryButton from '@/Components/Buttons/PrimaryButton.vue'
 
     export default defineComponent({
         components: {
@@ -114,7 +113,8 @@
             JetDialogModal,
             JetDangerButton,
             SuccessNotification,
-            LightButton
+            LightButton,
+            PrimaryButton,
         },
 
         data() {
@@ -132,8 +132,6 @@
                 }),
 
                 showModal:  false,
-
-                test : ''
             }
         },
 
