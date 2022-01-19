@@ -11,7 +11,12 @@
                 <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-6">
                     <jet-validation-errors class="mb-4" />
 
-                    <success-notification></success-notification>
+
+                    <!-- Notifications -->
+                    <success-notification :flashSuccess="flashSuccess">{{ flashSuccess }}</success-notification>
+                    <failed-notification :flashFailed="flashFailed">{{ flashFailed }}</failed-notification>
+                    <!-- End Notifications -->
+
 
                     <!-- New Estimate Form -->
                     <form @submit.prevent="createEstimate" class="p-6">
@@ -100,6 +105,7 @@
     import JetDialogModal from '@/Jetstream/DialogModal.vue'
     import JetDangerButton from '@/Jetstream/DangerButton.vue'
     import SuccessNotification from '@/Components/Notifications/SuccessNotification.vue'
+    import FailedNotification from '@/Components/Notifications/FailedNotification.vue'
     import LightButton from '@/Components/Buttons/LightButton.vue'
     import PrimaryButton from '@/Components/Buttons/PrimaryButton.vue'
 
@@ -113,12 +119,21 @@
             JetDialogModal,
             JetDangerButton,
             SuccessNotification,
+            FailedNotification,
             LightButton,
             PrimaryButton,
         },
 
+        created () {
+            this.flashSuccess   = this.$page.props.flash.success
+            this.flashFailed    = this.$page.props.flash.failed
+        },
+
         data() {
             return {
+                flashSuccess:   '',
+                flashFailed:    '',
+
                 formEstimate: this.$inertia.form({
                     client_id:      '',
                     description:    '',
@@ -142,16 +157,18 @@
         },
 
         methods: {
-            newClient () {
-
-            },
-
             createEstimate() {
                 this.formEstimate.post(this.route('estimates.store'));
             },
 
             AddClient() {
-                this.formAddClient.post(this.route('clients.add'));
+                this.formAddClient.post(this.route('clients.add'), {
+                    onSuccess: () => {
+                        this.flashSuccess   = this.$page.props.flash.success
+                        this.flashFailed    = this.$page.props.flash.failed
+                    },
+                });
+
                 this.end()
             },
 
@@ -164,6 +181,24 @@
                     email:      '',
                 })
             }
-        }
+        },
+
+        watch: {
+            flashSuccess: function (value) {
+                var vm = this
+
+                 setTimeout(() => {
+                    vm.flashSuccess = ''
+                 }, 3000);
+            },
+
+            flashFailed: function (value) {
+                var vm = this
+
+                 setTimeout(() => {
+                    vm.flashFailed = ''
+                 }, 3000);
+            }
+        },
     })
 </script>

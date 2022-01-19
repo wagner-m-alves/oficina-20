@@ -9,7 +9,7 @@
             </div>
             <!-- message -->
             <div class="text-white max-w-xs ">
-                {{ flashSuccess }}
+                <slot></slot>
             </div>
         </div>
    </div>
@@ -17,24 +17,9 @@
 
 <script>
 export default {
-    mounted () {
-        this.flashSuccess = this.$page.props.flash.success
-        this.hideNotificationAutomatically()
-    },
-
-    data () {
-        return {
-            flashSuccess: ''
-        }
-    },
-
-    methods: {
-        hideNotificationAutomatically () {
-            let vue = this
-
-            setTimeout(() => {
-                vue.flashSuccess = ''
-            }, 2500);
+    props: {
+        flashSuccess: {
+            required: true,
         }
     }
 }

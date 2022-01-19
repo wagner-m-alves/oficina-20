@@ -10,7 +10,7 @@
             </div>
             <!-- message -->
             <div class="text-white max-w-xs ">
-                {{ flashFailed }}
+                <slot></slot>
             </div>
         </div>
    </div>
@@ -18,24 +18,9 @@
 
 <script>
 export default {
-    mounted () {
-        this.flashFailed = this.$page.props.flash.failed
-        this.hideNotificationAutomatically()
-    },
-
-    data () {
-        return {
-            flashFailed: ''
-        }
-    },
-
-    methods: {
-        hideNotificationAutomatically () {
-            let vue = this
-
-            setTimeout(() => {
-                vue.flashFailed = ''
-            }, 2500);
+    props: {
+        flashFailed: {
+            required: true,
         }
     }
 }

@@ -9,8 +9,10 @@
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-6">
-                    <success-notification></success-notification>
-                    <failed-notification></failed-notification>
+                    <!-- Notifications -->
+                    <success-notification :flashSuccess="flashSuccess">{{ flashSuccess }}</success-notification>
+                    <failed-notification :flashFailed="flashFailed">{{ flashFailed }}</failed-notification>
+                    <!-- End Notifications -->
 
 
                     <!-- Actions -->
@@ -107,10 +109,18 @@
             PrimaryButton,
         },
 
+        created () {
+            this.flashSuccess   = this.$page.props.flash.success
+            this.flashFailed    = this.$page.props.flash.failed
+
+        },
+
         data () {
             return {
-                showModal:  false,
-                deleteId:   '',
+                showModal:      false,
+                deleteId:       '',
+                flashSuccess:   '',
+                flashFailed:    ''
             }
         },
 
@@ -132,7 +142,12 @@
                 this.showModal = false
 
                 if(this.deleteId){
-                    this.$inertia.delete(this.route('clients.destroy', this.deleteId))
+                    this.$inertia.delete(this.route('clients.destroy', this.deleteId), {
+                        onSuccess: () => {
+                            this.flashSuccess   = this.$page.props.flash.success
+                            this.flashFailed    = this.$page.props.flash.failed
+                        },
+                    })
                 }
 
                 this.deleteId = ''
@@ -154,6 +169,24 @@
             'clients': {
                 required:   true,
                 type:       Object,
+            }
+        },
+
+        watch: {
+            flashSuccess: function (value) {
+                var vm = this
+
+                 setTimeout(() => {
+                    vm.flashSuccess = ''
+                 }, 3000);
+            },
+
+            flashFailed: function (value) {
+                var vm = this
+
+                 setTimeout(() => {
+                    vm.flashFailed = ''
+                 }, 3000);
             }
         },
     })

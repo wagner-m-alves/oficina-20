@@ -9,8 +9,10 @@
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-6">
-                    <success-notification></success-notification>
-                    <failed-notification></failed-notification>
+                    <!-- Notifications -->
+                    <success-notification :flashSuccess="flashSuccess">{{ flashSuccess }}</success-notification>
+                    <failed-notification :flashFailed="flashFailed">{{ flashFailed }}</failed-notification>
+                    <!-- End Notifications -->
 
 
                     <!-- Actions -->
@@ -63,8 +65,8 @@
                                 <td class="px-6 py-2 text-sm font-medium whitespace-nowrap tracking-wider">{{estimate.employee.name}}</td>
                                 <td class="px-6 py-2 text-sm font-medium whitespace-nowrap tracking-wider">R$ {{ estimate.value }}</td>
                                 <td class="px-6 py-2 text-sm font-medium whitespace-nowrap tracking-wider">
-                                    <success-button class="mr-3" @click="edit(estimates.id)">Editar</success-button>
-                                    <jet-danger-button @click="wantDestroy(estimates.id)">Deletar</jet-danger-button>
+                                    <success-button class="mr-3" @click="edit(estimate.id)">Editar</success-button>
+                                    <jet-danger-button @click="wantDestroy(estimate.id)">Deletar</jet-danger-button>
                                 </td>
                             </tr>
                         </tbody>
@@ -138,10 +140,17 @@
             PrimaryButton,
         },
 
+        created () {
+            this.flashSuccess   = this.$page.props.flash.success
+            this.flashFailed    = this.$page.props.flash.failed
+        },
+
         data () {
             return {
-                showModal:  false,
-                deleteId:   '',
+                showModal:      false,
+                deleteId:       '',
+                flashSuccess:   '',
+                flashFailed:    '',
 
                 formSearch: this.$inertia.form({
                     client:      '',
@@ -170,7 +179,12 @@
                 this.showModal = false
 
                 if(this.deleteId){
-                    this.$inertia.delete(this.route('estimates.destroy', this.deleteId))
+                    this.$inertia.delete(this.route('estimates.destroy', this.deleteId), {
+                        onSuccess: () => {
+                            this.flashSuccess   = this.$page.props.flash.success
+                            this.flashFailed    = this.$page.props.flash.failed
+                        },
+                    })
                 }
 
                 this.deleteId = ''
@@ -196,6 +210,24 @@
             'estimates': {
                 required:   true,
                 type:       Object,
+            }
+        },
+
+        watch: {
+            flashSuccess: function (value) {
+                var vm = this
+
+                 setTimeout(() => {
+                    vm.flashSuccess = ''
+                 }, 3000);
+            },
+
+            flashFailed: function (value) {
+                var vm = this
+
+                 setTimeout(() => {
+                    vm.flashFailed = ''
+                 }, 3000);
             }
         },
     })
